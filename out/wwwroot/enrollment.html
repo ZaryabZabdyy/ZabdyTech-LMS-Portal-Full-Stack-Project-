@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Course Enrollment Pipeline</title>
+    <link rel="stylesheet" href="enrollment.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="enroll-container">
+        <!-- Main Form Glass Card -->
+        <main class="enroll-card">
+            
+            <!-- Branding Header -->
+            <div class="enroll-header">
+                <!-- 🔙 Direct Homepage Back Button -->
+                <a href="homepage.html" class="back-to-home-btn" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: #ffffff; padding: 6px 14px; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 500; margin-bottom: 1.25rem; transition: all 0.2s ease;">
+                    <span>←</span> Back to Dashboard
+                </a>
+
+                <div class="brand-node">Enterprise Tech Academy</div>
+                <h1>Course Enrollment Gateway</h1>
+                <p class="subtitle">Initialize your academic instance packet below.</p>
+                
+                <!-- Progress Stepper Component -->
+                <div class="stepper-wrapper">
+                    <div class="step-node active" id="stepIndicator1">
+                        <span class="step-num">01</span>
+                        <span class="step-label">Identity Node</span>
+                    </div>
+                    <div class="step-line" id="stepLine1"></div>
+                    <div class="step-node" id="stepIndicator2">
+                        <span class="step-num">02</span>
+                        <span class="step-label">Track Config</span>
+                    </div>
+                    <div class="step-line" id="stepLine2"></div>
+                    <div class="step-node" id="stepIndicator3">
+                        <span class="step-num">03</span>
+                        <span class="step-label">Secure Pay</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Multi-Step Form Layout -->
+            <form id="enrollmentGatewayForm" onsubmit="event.preventDefault();">
+                
+                <!-- 🛡️ STEP 1: IDENTITY METADATA -->
+                <div class="form-step-pane" id="stepPane1">
+                    <div class="form-grid">
+                        <div class="form-field full-width">
+                            <label for="enrollName">Full Legal Name</label>
+                            <input type="text" id="enrollName" placeholder="e.g., John Doe" required>
+                        </div>
+                        
+                        <div class="form-field">
+                            <label for="enrollEmail">Academic / Professional Email</label>
+                            <input type="email" id="enrollEmail" placeholder="johndoe@example.com" required>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="enrollPhone">Contact Sequence (Phone)</label>
+                            <input type="tel" id="enrollPhone" placeholder="+92 300 0000000" required>
+                        </div>
+
+                        <div class="form-field full-width">
+                            <label for="enrollInstitute">University / Organization Affiliation</label>
+                            <input type="text" id="enrollInstitute" placeholder="e.g., Enter Your Orgranization">
+                        </div>
+                    </div>
+
+                    <div class="step-actions">
+                        <div></div> <!-- Spacer -->
+                        <button type="button" class="btn-nav-next" data-next="2">
+                            Proceed to Configurations <span class="arrow">→</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ⚙️ STEP 2: DYNAMIC LOCKED COURSE CONFIGURATION -->
+                <div class="form-step-pane hidden" id="stepPane2">
+                    <div class="form-grid">
+                        <div class="form-field full-width">
+                            <label style="margin-bottom: 0.5rem; display: block;">Your Selected Target Curriculum Program</label>
+                            
+                            <div id="selectedCourseWrapper">
+                                <div class="course-locked-card">
+                                    <span class="course-card-icon" id="targetCourseIcon">⏳</span>
+                                    <div>
+                                        <h3 id="targetCourseTitle">Loading Selection Instance...</h3>
+                                        <p id="targetCourseDesc">Resolving dynamic routing parameters.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-field full-width" style="margin-top: 0.5rem;">
+                            <label>Preferred Shift Structure</label>
+                            <div class="radio-card-group">
+                                <label class="radio-card">
+                                    <input type="radio" name="shiftPreference" value="morning" checked>
+                                    <div class="radio-card-content">
+                                        <span class="radio-title">☀️ Morning Matrix</span>
+                                        <span class="radio-desc">09:00 AM - 12:00 PM</span>
+                                    </div>
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="shiftPreference" value="evening">
+                                    <div class="radio-card-content">
+                                        <span class="radio-title">🌙 Evening Core</span>
+                                        <span class="radio-desc">06:00 PM - 09:00 PM</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-actions">
+                        <button type="button" class="btn-nav-prev" data-prev="1">
+                            <span class="arrow">←</span> Identity Node
+                        </button>
+                        <button type="button" class="btn-nav-next-special" id="btnTriggerPaymentFlow">
+                            Proceed to Payment <span class="arrow">→</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 💳 STEP 3: FINANCIAL SECURE PAYMENT SYSTEM -->
+                <div class="form-step-pane hidden" id="stepPane3">
+                    <div class="payment-summary-box">
+                        <span class="summary-label">Course Admission Fee Rate:</span>
+                        <div class="summary-amount" id="dynamicPaymentPriceDisplay">PKR --,-- <span class="tax-tag">/ One-time</span></div>
+                    </div>
+
+                    <label style="margin-bottom: 0.75rem; display: block; font-size: 0.85rem; font-weight: 600;">Choose Funding Route</label>
+                    
+                    <div class="payment-tabs-grid">
+                        <label class="pay-tab-card">
+                            <input type="radio" name="paymentRoute" value="easypaisa" checked>
+                            <div class="pay-tab-inner">
+                                <span class="pay-icon">🟢</span>
+                                <span>EasyPaisa</span>
+                            </div>
+                        </label>
+                        <label class="pay-tab-card">
+                            <input type="radio" name="paymentRoute" value="jazzcash">
+                            <div class="pay-tab-inner">
+                                <span class="pay-icon">🔴</span>
+                                <span>JazzCash</span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="payment-details-container" style="margin-top: 1.5rem;">
+                        <!-- Mobile Wallet Credentials & Instruction Block -->
+                        <div class="pay-sub-form" id="payFormWallet">
+                            <div class="merchant-instruction-card" style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); padding: 1.25rem; border-radius: 12px; margin-bottom: 1.5rem; border-left: 4px solid #ff9f43;">
+                                <h4 style="margin: 0 0 0.5rem 0; color: #ff9f43; font-size: 0.95rem;">💡 Payment Transfer Instructions</h4>
+                                <p style="font-size: 0.825rem; color: #a5b1c2; margin: 0 0 0.75rem 0; line-height: 1.4;">
+                                    Please transfer the total fee amount to the account details provided below via your mobile banking application:
+                                </p>
+                                <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.85rem; color: #ffffff;">
+                                    <div><strong>Account Type:</strong> <span id="instructionWalletName" style="color: #ff9f43; font-weight: bold;">EasyPaisa</span></div>
+                                    <div><strong>Account Number:</strong> <span style="letter-spacing: 0.5px; font-weight: 600; color: #ffffff;">03187598314</span></div>
+                                    <div><strong>Account Title:</strong> <span style="color: #20bf6b; font-weight: 600;">Zabdy Tech Academy</span></div>
+                                </div>
+                            </div>
+
+                            <div class="form-grid">
+                                <div class="form-field full-width" style="margin-bottom: 1rem;">
+                                    <label style="color: #ff9f43; font-weight: 700;">Your Sender Account Number</label>
+                                    <input type="text" id="walletSenderAccountInput" placeholder="e.g. 03001234567" maxlength="11" required style="border: 1px solid #ff9f43; background: rgba(255,159,67,0.05);">
+                                    <p style="font-size: 0.75rem; color: #a5b1c2; margin-top: 6px;">Enter the 11-digit mobile account number used to send the payment (e.g., 03001234567).</p>
+                                </div>
+
+                                <div class="form-field full-width">
+                                    <label style="color: #ff9f43; font-weight: 700;">Transaction ID (TrxID)</label>
+                                    <input type="text" id="walletTransactionIdInput" placeholder="Enter Generated Transaction ID" class="wallet-validation-field" required style="border: 1px solid #ff9f43; background: rgba(255,159,67,0.05);">
+                                    <p style="font-size: 0.75rem; color: #a5b1c2; margin-top: 6px;">Enter the unique Transaction Reference ID (TrxID) received upon completing the payment transfer.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-field full-width" style="margin-top: 1.5rem;">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="termsAgreement">
+                            <span class="checkbox-mark"></span>
+                            <span class="checkbox-text">I verify that all configuration matrices and financial elements submitted are accurate.</span>
+                        </label>
+                    </div>
+
+                    <div class="step-actions">
+                        <button type="button" class="btn-nav-prev" data-prev="2">
+                            <span class="arrow">←</span> Track Config
+                        </button>
+                        <button type="submit" class="btn-submit-enroll" id="btnSubmitEnroll">
+                            Authorize & Finalize Enrollment 🚀
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+        </main>
+    </div>
+
+    <!-- ⚡ HIGH-END TRANSITION OVERLAY INTERMEDIATE LOADER -->
+    <div class="verification-overlay hidden" id="verificationOverlayBlock">
+        <div class="verif-glass-card">
+            <div class="verif-pulse-icon">✓</div>
+            <h2>Curriculum Configuration Locked!</h2>
+            <p>Your track parameters have been mapped successfully. Initializing structural handshake layers and loading secure payment environments...</p>
+            <div class="verif-progress-track">
+                <div class="verif-progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🎉 NEW FINAL SUCCESSFUL ENROLLMENT COMPLETE CONGRATULATIONS DIALOG OVERLAY -->
+    <div class="verification-overlay hidden" id="finalSuccessOverlay">
+        <div class="verif-glass-card dynamic-success-card">
+            <div class="success-glow-ring">
+                <span class="success-check-mark">🎉</span>
+            </div>
+            <h2>Congratulations!</h2>
+            <p>Your academic instance deployment has been fully verified and registered into the ecosystem.</p>
+            
+            <div class="success-action-zone">
+                <button type="button" class="btn-dashboard-redirect" onclick="window.location.href='homepage.html';">
+                    Return to Dashboard
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🌟 STYLISH CUSTOM MODAL FOR ENROLLMENT NOTIFICATIONS -->
+    <div id="enrollmentModal" class="modal-overlay hidden">
+        <div id="enrollmentModalBox" class="modal-box">
+            <div id="enrollmentModalIcon" class="modal-icon">⚡</div>
+            <h2 id="enrollmentModalTitle">Notification</h2>
+            <p id="enrollmentModalText">Message details will appear here...</p>
+            <button id="closeEnrollmentModalBtn" class="btn-modal-close">Continue</button>
+        </div>
+    </div>
+
+    <script src="enrollment.js"></script>
+</body>
+</html>

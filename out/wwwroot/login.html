@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In - Zabdy's Tech</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .content-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 74px);
+            padding: 40px 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="main-header">
+        <div class="header-left">
+            <div class="brand-logo">Zabdy's Tech</div>
+            <nav class="nav-links-left">
+                <a href="homepage.html" class="nav-item">Home</a>
+            </nav>
+        </div>
+        <div class="header-right">
+            <div class="auth-buttons">
+                <a href="signup.html" class="btn-signup">Sign Up</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="content-wrapper">
+        <div class="signup-view-zone" style="min-height: auto; padding: 0; width: 100%;">
+            <div class="signup-form-card">
+                <div id="portalRequiredNotice" class="portal-notice-banner hidden">
+                    Please log in to access your customized Student Portal matrix.
+                </div>
+
+                <h2>Log In to Your Account</h2>
+                <p>Welcome back! Access your systemic architecture tracks.</p>
+
+                <form id="loginForm" novalidate>
+                    <div class="input-group-wrapper">
+                        Email Address <input type="email" id="loginEmail" placeholder="name@example.com">
+                    </div>
+                    <div class="input-group-wrapper">
+                        Password <input type="password" id="loginPassword" placeholder="••••••••">
+                    </div>
+                    <!-- 🔑 Forgot Password Redirect Link -->
+                    <div class="form-field-actions"
+                        style="display: flex; justify-content: flex-end; margin-top: -0.5rem; margin-bottom: 1.25rem;">
+                        <a href="forget-pass.html" class="forgot-password-link"
+                            style="color: #ff9f43; font-size: 0.825rem; text-decoration: none; font-weight: 500; transition: color 0.2s;">
+                            Forgot Password?
+                        </a>
+                    </div>
+
+
+                    <button type="submit" class="btn-submit-form">Secure Log In</button>
+
+                    <div class="auth-toggle-helper-text">
+                        Don't have an account? <a href="signup.html">Sign Up here</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Unified Dynamic Custom Modal for Login -->
+    <div id="loginModal" class="modal-overlay hidden">
+        <div id="loginModalBox" class="modal-box">
+            <div id="loginModalIcon" class="modal-icon">⚡</div>
+            <h2 id="loginModalTitle">Notification</h2>
+            <p id="loginModalText">Message text goes here...</p>
+            <button id="closeLoginModalBtn" class="btn-modal-close">Continue</button>
+        </div>
+    </div>
+
+    <!-- External JS Link -->
+    <script src="login.js"></script>
+</body>
+
+</html>

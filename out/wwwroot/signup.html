@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Zabdy's Tech</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .content-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 74px);
+            padding: 40px 20px;
+        }
+
+        /* Password Wrapper & White Eye Toggle Button Styling */
+        .password-field-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .password-field-container input {
+            width: 100%;
+            padding-right: 42px; /* Eye button ke liye space */
+        }
+
+        .toggle-password-btn {
+            position: absolute;
+            right: 12px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff; /* White Color Icon */
+            opacity: 0.8;
+            transition: opacity 0.2s ease, transform 0.1s ease;
+        }
+
+        .toggle-password-btn:hover {
+            opacity: 1;
+            transform: scale(1.08);
+        }
+
+        .toggle-password-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: #ffffff; /* SVG stroke in clean white */
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="header-left">
+            <div class="brand-logo">Zabdy's Tech</div>
+            <nav class="nav-links-left">
+                <a href="homepage.html" class="nav-item">Home</a>
+            </nav>
+        </div>
+        <div class="header-right">
+            <div class="auth-buttons">
+                <a href="login.html" class="btn-login">Log In</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="content-wrapper">
+        <div class="signup-view-zone" style="min-height: auto; padding: 0; width: 100%;">
+            <div class="signup-form-card">
+                <h2>Create Your Account</h2>
+                <p>Join Zabdy's Tech and start building systemic capabilities.</p>
+                
+                <form id="registrationForm" novalidate>
+                    <div class="input-group-wrapper">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" placeholder="John">
+                    </div>
+                    <div class="input-group-wrapper">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" placeholder="Doe">
+                    </div>
+                    <div class="input-group-wrapper">
+                        <label for="emailAddress">Email Address</label>
+                        <input type="email" id="emailAddress" placeholder="name@example.com">
+                    </div>
+
+                    <!-- Password Field with White Eye Icon -->
+                    <div class="input-group-wrapper">
+                        <label for="password">Password</label>
+                        <div class="password-field-container">
+                            <input type="password" id="password" placeholder="••••••••">
+                            <button type="button" class="toggle-password-btn" data-target="password" aria-label="Toggle password visibility">
+                                <svg class="eye-icon" viewBox="0 0 24 24">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Confirm Password Field with White Eye Icon -->
+                    <div class="input-group-wrapper">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <div class="password-field-container">
+                            <input type="password" id="confirmPassword" placeholder="••••••••">
+                            <button type="button" class="toggle-password-btn" data-target="confirmPassword" aria-label="Toggle confirm password visibility">
+                                <svg class="eye-icon" viewBox="0 0 24 24">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="input-group-wrapper">
+                        <label for="phoneNumber">Phone Number</label>
+                        <input type="tel" id="phoneNumber" placeholder="+92 300 1234567">
+                    </div>
+                    <div class="input-group-wrapper">
+                        <label for="dob">Date of Birth</label>
+                        <input type="date" id="dob">
+                    </div>
+                    <div class="input-group-wrapper">
+                        <label for="country">Country</label>
+                        <input type="text" id="country" placeholder="Pakistan">
+                    </div>
+
+                    <button type="submit" class="btn-submit-form">Register Account</button>
+                    
+                    <div class="auth-toggle-helper-text">
+                        Already have an account? <a href="login.html">Log In here</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Unified Dynamic Custom Modal for Signup -->
+    <div id="signupModal" class="modal-overlay hidden">
+        <div id="signupModalBox" class="modal-box">
+            <div id="signupModalIcon" class="modal-icon">🎉</div>
+            <h2 id="signupModalTitle">Notification</h2>
+            <p id="signupModalText">Message text goes here...</p>
+            <button id="closeSignupModalBtn" class="btn-modal-close">Continue</button>
+        </div>
+    </div>
+
+    <!-- External JS Link -->
+    <script src="Signup.js"></script>
+</body>
+</html>

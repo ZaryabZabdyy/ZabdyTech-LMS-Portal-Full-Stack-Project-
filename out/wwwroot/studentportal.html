@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal - Zabdy's Tech</title>
+    <link rel="stylesheet" href="student.css">
+</head>
+
+<body>
+
+    <div class="portal-container">
+
+        <!-- ==========================================================================
+             🎛️ SIDEBAR NAVIGATION COMPONENT
+             ========================================================================== -->
+        <aside class="portal-sidebar">
+            <div class="sidebar-brand">
+                <span class="brand-logo">Zabdy's Tech</span>
+                <span class="portal-badge">Student Node</span>
+            </div>
+
+            <!-- 👤 Dynamic Student Info Badge in Sidebar -->
+            <div class="sidebar-user-card"
+                style="display: flex; align-items: center; gap: 12px; padding: 12px; margin: 15px 0; background: rgba(255, 255, 255, 0.05); border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                <div id="sidebarStudentAvatar"
+                    style="width: 38px; height: 38px; border-radius: 50%; background: var(--neon-cyan, #00cbff); color: #000; font-weight: bold; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                    S</div>
+                <div style="overflow: hidden;">
+                    <h5 id="sidebarStudentName"
+                        style="margin: 0; font-size: 0.95rem; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        Loading Student...</h5>
+                    <span style="font-size: 0.75rem; color: #94a3b8;">Enrolled Student</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-bucket active" data-target="studentDashboard">
+                    <span class="icon">🏠</span> Dashboard
+                </a>
+                <a href="#" class="nav-bucket" data-target="studentCourse">
+                    <span class="icon">📖</span> Course
+                </a>
+                <a href="#" class="nav-bucket" data-target="projectRequirements">
+                    <span class="icon">📋</span> Project Requirements
+                </a>
+                <a href="#" class="nav-bucket" data-target="projectSubmission">
+                    <span class="icon">📤</span> Project Submission
+                </a>
+                <a href="#" class="nav-bucket" data-target="projectResult">
+                    <span class="icon">⭐</span> Project Result
+                </a>
+                <a href="#" class="nav-bucket" data-target="submissionHistory">
+                    <span class="icon">📜</span> Submission History
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="#" id="studentLogoutBtn" class="nav-bucket logout-link">
+                    <span class="icon">🚪</span> Logout
+                </a>
+            </div>
+        </aside>
+
+        <!-- ==========================================================================
+             💻 MAIN CONTENT ARTIFACT ZONE
+             ========================================================================== -->
+        <main class="portal-main-content">
+
+            <!-- 🏠 1. DASHBOARD ZONE -->
+            <section id="studentDashboard" class="portal-stage">
+                <div class="stage-header">
+                    <h1>Welcome Back, Student Instance</h1>
+                    <p class="subtitle">Monitor your active training track development velocities below.</p>
+                </div>
+
+                <!-- Live Metrics Summary Grid -->
+                <div class="dashboard-cards-grid">
+                    <div class="metric-card metric-primary">
+                        <div class="card-icon">📚</div>
+                        <div class="metric-info">
+                            <span class="card-label">Current Enrolled Course</span>
+                            <h3 class="card-value" id="dashCourseName">Loading...</h3>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="card-icon">📋</div>
+                        <div class="metric-info">
+                            <span class="card-label">Current Active Project</span>
+                            <h3 class="card-value" id="dashProjectName">Loading...</h3>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="card-icon">📅</div>
+                        <div class="metric-info">
+                            <span class="card-label">Project Deadline</span>
+                            <h3 class="card-value" id="dashProjectDeadline">Loading...</h3>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="card-icon">📤</div>
+                        <div class="metric-info">
+                            <span class="card-label">Submission Status</span>
+                            <h3 class="card-value" id="dashSubmissionStatus" style="color: #10b981;">Loading...</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-split-layout"
+                    style="margin-top: 30px; display: grid; grid-template-columns: 1.5fr 1fr; gap: 1.5rem;">
+                    <!-- Project Progress Card -->
+                    <div class="content-card">
+                        <h3>Overall Track Progress</h3>
+                        <div class="progress-container-large" style="margin-top: 20px;">
+                            <div class="progress-bar-track">
+                                <div class="progress-bar-fill" style="width: 74%;"></div>
+                            </div>
+                            <p style="margin-top: 10px; font-size: 0.9rem; color: #94a3b8;">You have compiled 74% of
+                                total course milestones successfully.</p>
+                        </div>
+                    </div>
+
+                    <!-- Latest Announcement Card -->
+                    <div class="content-card">
+                        <h3 style="color: #ff007f;">📢 Latest Announcement</h3>
+                        <p style="color: #e2e8f0; font-size: 0.9rem; margin-top: 15px; line-height: 1.6;">
+                            "The evaluation routine for the temporary array data model architecture is live. Ensure your
+                            submission contains persistent routing."
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 📖 2. COURSE OVERVIEW -->
+            <section id="studentCourse" class="portal-stage hidden">
+                <div class="stage-header">
+                    <h1>Course Track Architecture</h1>
+                    <p class="subtitle">Complete functional blueprint details of your technical curriculum.</p>
+                </div>
+
+                <div class="content-card">
+                    <h2 id="courseTitleDisplay">Loading Course...</h2>
+                    <p id="courseDescDisplay" style="color: #94a3b8; margin-top: 10px; line-height: 1.7;">
+                        Loading course description...
+                    </p>
+
+                    <div class="form-divider" style="margin: 2rem 0;"></div>
+
+                    <h3>👨‍🏫 Instructor Information</h3>
+                    <div style="display: flex; align-items: center; gap: 1.5rem; margin-top: 15px;">
+                        <div
+                            style="width: 60px; height: 60px; background: rgba(0, 203, 255, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; border: 1px solid rgba(0, 203, 255, 0.3);">
+                            👤</div>
+                        <div>
+                            <h4 id="instFullName">Zabdy Mentor Instance</h4>
+                            <p style="color: #64748b; font-size: 0.85rem;">
+                                <span id="instBackground">Senior Software Architect</span> | <span
+                                    id="instEmail">mentor@zabdystech.com</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 📋 3. PROJECT REQUIREMENTS -->
+            <section id="projectRequirements" class="portal-stage hidden">
+                <div class="stage-header">
+                    <h1>Project Scope & Evaluation Blueprints</h1>
+                    <p class="subtitle">Read all structural specs prior to compiling source assets.</p>
+                </div>
+
+                <div class="content-card">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                        <h2 id="reqProjectTitle" style="color: var(--neon-cyan);">Current Target: Loading...</h2>
+                        <span id="reqProjectDeadline" class="status-badge warning">Deadline: Loading...</span>
+                    </div>
+
+                    <div id="reqStatusNotice" style="margin-top: 15px; display: none;"></div>
+
+                    <div style="margin-top: 20px; color: #cbd5e1; line-height: 1.8;">
+                        <h3>Functional Scope Specs:</h3>
+                        <ul id="reqScopeList"
+                            style="margin-left: 20px; margin-top: 10px; display: flex; flex-direction: column; gap: 0.5rem;">
+                            <li>Loading specifications...</li>
+                        </ul>
+                    </div>
+
+                    <div class="form-divider" style="margin: 2rem 0;"></div>
+
+                    <h3>📚 Resource Nodes & Blueprints</h3>
+                    <div style="display: flex; gap: 1rem; margin-top: 15px; flex-wrap: wrap;">
+                        <a id="reqDocBtn" href="#" target="_blank" class="btn-table-action"
+                            style="text-decoration: none;">📄 Download System Spec Rules.pdf</a>
+                        <a id="reqWireframeBtn" href="#" target="_blank" class="btn-table-action"
+                            style="text-decoration: none;">🔗 Architecture Design Wireframes</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 📤 4. PROJECT SUBMISSION -->
+            <section id="projectSubmission" class="portal-stage hidden">
+                <div class="stage-header">
+                    <h1>Compile Asset Deployment</h1>
+                    <p class="subtitle">Upload asset files or link live source code versioning pipelines.</p>
+                </div>
+
+                <div class="content-card">
+                    <h3>Submit Active Architecture Nodes</h3>
+                    <form id="submissionUploadForm" class="portal-form-grid" style="margin-top: 20px;"
+                        onsubmit="event.preventDefault();">
+                        
+                        <!-- 🔽 Pending Projects Dropdown (Not Submitted & Not Graded) -->
+                        <div class="form-field full-width">
+                            <label for="pendingProjectsSelect" style="color: var(--neon-cyan); font-weight: bold; display: block; margin-bottom: 8px;">Select Project to Submit:</label>
+                            <select id="pendingProjectsSelect" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.15); color: #fff; border-radius: 6px; outline: none;">
+                                <option value="">-- Loading Pending Projects --</option>
+                            </select>
+                        </div>
+
+                        <div class="form-field full-width">
+                            <label>GitHub Source Repository URL</label>
+                            <input type="url" placeholder="https://github.com/your-profile/lms-portal-repo">
+                        </div>
+                        <div class="form-field full-width">
+                            <label>Upload Compressed Workspace Binaries (.ZIP Format Only)</label>
+                            <div class="file-upload-dropzone" id="studentZipDropzone">
+                                <span class="upload-icon">📦</span>
+                                <p>Drop localized .zip payload bundle files here or <span class="highlight">Browse
+                                        Files</span></p>
+                                <input type="file" id="zipFileInput" accept=".zip" style="display:none;">
+                            </div>
+                        </div>
+
+                        <div class="form-actions full-width" style="margin-top: 15px;">
+                            <button type="button" class="btn-action-primary">Execute Data Packet Submission</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- ⭐ 5. PROJECT RESULT SECTION WITH GRADED PROJECTS DROPDOWN -->
+            <section id="projectResult" class="portal-stage hidden">
+                <div class="stage-header">
+                    <h1>Evaluation Metrics Report</h1>
+                    <p class="subtitle">Analytical parsing grades rendered by the faculty instructor node.</p>
+                </div>
+
+                <!-- Graded Project Selector Dropdown Card -->
+                <div class="content-card" style="margin-bottom: 20px;">
+                    <label for="gradedProjectsSelect" style="color: var(--neon-cyan); font-weight: bold; display: block; margin-bottom: 8px;">Select Graded Project:</label>
+                    <select id="gradedProjectsSelect" style="width: 100%; padding: 12px; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.15); color: #fff; border-radius: 6px; outline: none;">
+                        <option value="">-- Loading Graded Projects --</option>
+                    </select>
+                </div>
+
+                <div class="profile-layout-grid">
+                    <div class="content-card avatar-center-box" style="border-color: rgba(0, 203, 255, 0.25);">
+                        <span style="font-size: 3.5rem;">🏆</span>
+                        <h2 id="avgScoreDisplay"
+                            style="font-size: 2.5rem; margin-top: 15px; background: linear-gradient(135deg, #fff, var(--neon-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                            -- / 5</h2>
+
+                        <div id="dynamicStarsContainer"
+                            style="color: var(--system-amber); font-size: 1.2rem; margin-top: 5px; display: inline-block; letter-spacing: 3px;">
+                            <span>★ ★ ★ ★ ★</span>
+                        </div>
+
+                        <p
+                            style="color: var(--text-muted); font-size: 0.8rem; margin-top: 10px; text-transform: uppercase;">
+                            Latest Verified Rating</p>
+                    </div>
+
+                    <div class="content-card">
+                        <h3>Detailed Breakdown: Selected Project Target</h3>
+                        <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 1.25rem;">
+                            <div>
+                                <span style="color: var(--text-muted); font-size: 0.85rem;">Total Points Scored:</span>
+                                <h4 id="totalPointsDisplay" style="font-size: 1.2rem; color: white;">-- / 100 Marks</h4>
+                            </div>
+                            <div class="form-divider"></div>
+                            <div>
+                                <span style="color: var(--text-muted); font-size: 0.85rem;">Instructor Evaluation
+                                    Logs:</span>
+                                <p id="instructorFeedbackDisplay"
+                                    style="color: #e2e8f0; font-size: 0.95rem; line-height: 1.6; margin-top: 5px; font-style: italic; background: rgba(255,255,255,0.01); padding: 1rem; border-left: 3px solid var(--neon-cyan);">
+                                    "Please select a graded project from above to view evaluation..."
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 📜 6. SUBMISSION HISTORY -->
+            <section id="submissionHistory" class="portal-stage hidden">
+                <div class="stage-header">
+                    <h1>Historical Source Logs Ledger</h1>
+                    <p class="subtitle">Complete audit tracking record array for all current and historical workspace
+                        uploads.</p>
+                </div>
+
+                <div class="content-card no-padding">
+                    <div class="table-responsive">
+                        <table class="portal-data-table">
+                            <thead>
+                                <tr>
+                                    <th>Project Target Identifier</th>
+                                    <th>Submission Branch Context</th>
+                                    <th>Status Flag</th>
+                                    <th>Grading Node Link</th>
+                                </tr>
+                            </thead>
+                            <tbody id="submissionHistoryTableBody">
+                                <tr>
+                                    <td colspan="4"
+                                        style="text-align: center; color: var(--text-muted); padding: 2rem;">
+                                        Loading submission logs from database...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            
+
+        </main>
+    </div>
+
+    <!-- 🌀 CUSTOM STYLED POPUP MODAL -->
+    <div id="customModalOverlay" class="modal-overlay hidden">
+        <div class="custom-modal-card">
+            <div class="modal-header">
+                <span class="modal-icon" id="modalIcon">⚡</span>
+                <h3 id="modalTitle">Notification</h3>
+            </div>
+            <div class="modal-body">
+                <p id="modalMessage">Message content goes here...</p>
+            </div>
+            <div class="modal-actions">
+                <button id="modalCancelBtn" class="btn-modal-secondary hidden">Cancel</button>
+                <button id="modalConfirmBtn" class="btn-modal-primary">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ⚡ GLOWING "Z" LOADING OVERLAY -->
+    <div id="zLoaderOverlay" class="z-loader-overlay hidden">
+        <div class="z-loader-container">
+            <div class="z-spinner-ring"></div>
+            <div class="z-logo-text">Z</div>
+        </div>
+        <p class="z-loader-status" id="zLoaderText">Processing System Data...</p>
+    </div>
+
+    <!-- 🚀 Core JS Execution Script Link -->
+    <script src="student.js"></script>
+</body>
+
+</html>

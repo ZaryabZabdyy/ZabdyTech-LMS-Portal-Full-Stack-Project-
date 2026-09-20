@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instructor Portal | Zabdy's Tech</title>
+    <link rel="stylesheet" href="Instructor_style.css">
+</head>
+
+<body>
+
+    <!-- 🔄 GLOBAL SYSTEM VERIFICATION OVERLAY -->
+    <div id="verificationOverlayBlock" class="overlay-container hidden">
+        <div class="spinner-box">
+            <div class="custom-spinner"></div>
+            <p id="overlayStatusText">Compiling Source Assets...</p>
+        </div>
+    </div>
+
+    <!-- 🌀 CUSTOM Z-LOADER OVERLAY -->
+    <div id="zLoaderOverlay" class="z-loader-overlay hidden">
+        <div class="z-loader-container">
+            <div class="z-glowing-logo">Z</div>
+            <div class="z-spinner-ring"></div>
+            <p id="zLoaderText" class="z-loader-status-text">Processing System Data...</p>
+        </div>
+    </div>
+
+    <!-- ⚡ CUSTOM MODAL POPUP SYSTEM -->
+    <div id="customModalOverlay" class="custom-modal-overlay hidden">
+        <div class="custom-modal-card">
+            <div id="modalIcon" class="modal-icon-badge">⚡</div>
+            <h3 id="modalTitle" class="modal-title-text">Notification</h3>
+            <p id="modalMessage" class="modal-message-text">System message description goes here.</p>
+            <div class="modal-action-buttons">
+                <button id="modalCancelBtn" class="modal-btn modal-btn-cancel hidden">Cancel</button>
+                <button id="modalConfirmBtn" class="modal-btn modal-btn-confirm">Acknowledge</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="portal-container">
+        <!-- 🧭 SIDEBAR NAVIGATION (Stays Fixed Globally) -->
+        <aside class="sidebar">
+            <div class="brand-section">
+                <h2>Zabdy's Tech</h2>
+                <span class="portal-badge">INSTRUCTOR NODE</span>
+            </div>
+
+            <!-- 👤 COMPACT PROFILE SNAPSHOT -->
+            <div class="sidebar-profile-card">
+                <div class="profile-avatar-mini">💼</div>
+                <div class="profile-mini-details">
+                    <span
+                        style="font-size: 0.65rem; color: #00cbff; text-transform: uppercase; font-weight: 700; letter-spacing: 0.8px; display: block;">MENTOR</span>
+                    <h4 id="sidebarInstructorName">Loading...</h4>
+                    <p id="sidebarInstructorRole">Loading Degree...</p>
+                </div>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-target="dashboard-view">
+                    <span class="icon">📊</span> Dashboard Overview
+                </a>
+                <a href="#" class="nav-item" data-target="deploy-view">
+                    <span class="icon">📝</span> Create Course Project
+                </a>
+                <a href="#" class="nav-item" data-target="grade-view">
+                    <span class="icon">🎓</span> Evaluate Submissions
+                </a>
+                <a href="#" class="nav-item" data-target="repository-view">
+                    <span class="icon">📂</span> Student Project Database
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button id="instructorLogoutBtn" class="btn-logout">
+                    <span class="icon">🚪</span> Logout Node
+                </button>
+            </div>
+        </aside>
+
+        <!-- 🖥️ MAIN WORKSPACE CONTENT -->
+        <main class="main-content">
+
+            <!-- 1️⃣ VIEW: MAIN DASHBOARD OVERVIEW -->
+            <div id="dashboard-view" class="view-panel">
+                <!-- 🌟 PROFESSIONAL GREETINGS & QUALIFICATION HEADER -->
+                <header class="dashboard-hero-section">
+                    <div class="hero-greetings">
+                        <h1 id="dynamicGreetingText">Welcome Back, MENTOR!</h1>
+                        <p class="instructor-qualification" id="instructorSpecsText">
+                            Loading technical credentials and authorized tracks mapping...
+                        </p>
+                    </div>
+                    <div class="system-time-badge" id="liveClockBadge">System Node Active</div>
+                </header>
+
+                <!-- 📊 PROFESSIONAL ANALYTICS METRICS MATRIX -->
+                <section class="analytics-grid">
+                    <div class="metric-card unique-students-card">
+                        <div class="metric-icon-box">👥</div>
+                        <div class="metric-info">
+                            <div class="card-title">Total Enrolled Students</div>
+                            <div class="card-value" id="activeStudentsCount">--</div>
+                            <span class="metric-trend-text">Taking courses under your instruction</span>
+                        </div>
+                    </div>
+                    <div class="metric-card unique-projects-card">
+                        <div class="metric-icon-box">📁</div>
+                        <div class="metric-info">
+                            <div class="card-title">Total Created Projects</div>
+                            <div class="card-value" id="activeProjectsCount">--</div>
+                            <span class="metric-trend-text">Active engineering track blueprints</span>
+                        </div>
+                    </div>
+                    <div class="metric-card unique-submissions-card">
+                        <div class="metric-icon-box">📤</div>
+                        <div class="metric-info">
+                            <div class="card-title">Total Student Submissions</div>
+                            <div class="card-value" id="pendingEvaluationsCount">--</div>
+                            <span class="metric-trend-text">Pending & graded artifacts in DB</span>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="workspace-card dynamic-overlay-card" style="margin-top: 2.5rem;">
+                    <div class="card-header">
+                        <h2>Relational Infrastructure Diagnostics</h2>
+                        <p>Database normalization loops operating within secure runtimes. All connections secure on Port
+                            5127.</p>
+                    </div>
+                    <div class="system-status-logs">
+                        <div class="log-row"><span class="status-dot green"></span> SQL Server State: Connected</div>
+                        <div class="log-row"><span class="status-dot green"></span> Student Handshake Sync: Operational
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2️⃣ VIEW: CREATE COURSE PROJECT -->
+            <div id="deploy-view" class="view-panel hidden">
+                <section class="workspace-card dynamic-overlay-card">
+                    <div class="card-header">
+                        <h2>Deploy Target Project Blueprint</h2>
+                        <p>Create and upload assignment rules for your specific allocated engineering track into the
+                            database.</p>
+                    </div>
+
+                    <form id="blueprintDeploymentForm" class="deployment-form">
+                        <div class="form-grid">
+                            <div class="form-field full-width">
+                                <label for="targetTitle">Project Assignment Title</label>
+                                <input type="text" id="targetTitle"
+                                    placeholder="e.g., Hospital Management System (MediSys)" required>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="targetDeadline">Submission Cutoff Deadline</label>
+                                <input type="date" id="targetDeadline" required>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="targetTrack">Your Allocated Course Track</label>
+                                <select id="targetTrack" required>
+                                    <option value="" disabled selected>Select Authorized Course Mapping</option>
+                                    <option value="fswd">Full-Stack Web Development (ASP.NET Core)</option>
+                                    <option value="desktop">Desktop Application Architecture (C# / C++)</option>
+                                </select>
+                            </div>
+
+                            <!-- DYNAMIC BULLET COMPONENT -->
+                            <div class="form-field full-width">
+                                <label>Core Requirements Specifications (Dynamic Nodes)</label>
+                                <div class="dynamic-specs-wrapper">
+                                    <div id="specsBulletContainer">
+                                        <div class="spec-input-group">
+                                            <input type="text" class="spec-bullet-input"
+                                                placeholder="Configure optimal relational database tables structural scripts..."
+                                                required>
+                                            <button type="button" class="btn-remove-bullet">×</button>
+                                        </div>
+                                    </div>
+                                    <button type="button" id="btnAddSpecBullet" class="btn-secondary-action">+ Add Logic
+                                        Constraint Parameter</button>
+                                </div>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="specDocUrl">Specification Blueprint PDF Server Path</label>
+                                <input type="text" id="specDocUrl"
+                                    placeholder="e.g., https://localhost:5127/docs/requirements.pdf">
+                            </div>
+
+                            <div class="form-field">
+                                <label for="wireframeUrl">System Architecture / Prototype Reference Link</label>
+                                <input type="text" id="wireframeUrl"
+                                    placeholder="Figma wireframe link or mockups server path">
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" id="btnDeployBlueprint" class="btn-primary-deploy">
+                                Upload and Broadcast to Database →
+                            </button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+
+            <!-- 3️⃣ VIEW: EVALUATE & GRADE SUBMISSIONS -->
+            <div id="grade-view" class="view-panel hidden">
+                <section class="workspace-card dynamic-overlay-card">
+                    <div class="card-header">
+                        <h2>Performance Appraisal & Grading Engine</h2>
+                        <p>Process evaluation variables and push objective metrics back into the relational student
+                            records data schema.</p>
+                    </div>
+                    <form id="gradingSystemForm" class="deployment-form">
+                        <div class="form-grid">
+                            <div class="form-field">
+                                <label for="gradeStudentId">Select Target Student Node</label>
+                                <select id="gradeStudentId" required>
+                                    <option value="" disabled selected>Querying Authorized Enrolled Students...</option>
+                                </select>
+                            </div>
+                            <div class="form-field">
+                                <label for="allocatedMarks">Marks Variables Score (0 - 100)</label>
+                                <input type="number" id="allocatedMarks" placeholder="Assign weightage value" min="0"
+                                    max="100" required>
+                            </div>
+                            <div class="form-field full-width">
+                                <label for="gradingFeedback">Structural Code Feedback / Critique Logs</label>
+                                <input type="text" id="gradingFeedback"
+                                    placeholder="e.g., Database normalization optimized, logic nodes verification successful."
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary-deploy">Publish Grade Metrics to Database
+                                →</button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+
+            <!-- 4️⃣ VIEW: EXPLORE STUDENT PROJECT DATABASE -->
+            <div id="repository-view" class="view-panel hidden">
+                <section class="workspace-card dynamic-overlay-card">
+                    <div class="card-header">
+                        <h2>Centralized Student Submission Repository</h2>
+                        <p>Query the remote database cluster to intercept and view files submitted by any student .</p>
+                    </div>
+
+                    <div class="search-handshake-wrapper" style="margin-bottom: 2rem; display: flex; gap: 1rem;">
+                        <select id="repoStudentSelect"
+                            style="flex-grow: 1; padding: 0.85rem; background: rgba(9,15,29,0.6); border: 1px solid var(--border-color); color: white; border-radius: 8px;">
+                            <option value="" disabled selected>Select Student to View Uploaded Artifacts</option>
+                        </select>
+                        <button type="button" id="btnFetchRepoSubmission" class="btn-primary-deploy"
+                            style="padding: 0 1.5rem; margin-top: 0;">Query Database</button>
+                    </div>
+
+                    <!-- Repository Metadata Output Screen -->
+                    <div id="repoResultsDisplay" class="repo-display-box hidden">
+                        <!-- Dynamic Submission Record Rendered via JS -->
+                    </div>
+
+                    <div id="repoFallbackMessage"
+                        style="color: var(--text-secondary); text-align: center; padding: 2rem 0;">
+                        No student query active. Execute initialization search parameters above.
+                    </div>
+                </section>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="instructor_dashboard.js"></script>
+</body>
+
+</html>

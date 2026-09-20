@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zabdy's Tech - High Performance Learning Platform</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Inline Styling for Universal Z-Loader & Custom Glassmorphic Modals -->
+    <style>
+        /* ==========================================================================
+           ⚡ Z-VISUAL LOADER OVERLAY STYLES
+           ========================================================================== */
+        #zLoaderOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(11, 15, 25, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        #zLoaderOverlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .z-loader-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 120px;
+            height: 120px;
+        }
+
+        .z-loader-symbol {
+            font-size: 80px;
+            font-weight: 900;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #00cbff, #9d4edd, #ff007f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: zPulseGlow 1.5s ease-in-out infinite alternate;
+            filter: drop-shadow(0 0 15px rgba(0, 203, 255, 0.6));
+        }
+
+        .z-spinner-ring {
+            position: absolute;
+            width: 110px;
+            height: 110px;
+            border: 3px solid transparent;
+            border-top: 3px solid #00cbff;
+            border-right: 3px solid #9d4edd;
+            border-radius: 50%;
+            animation: spinRing 1s linear infinite;
+        }
+
+        .z-loader-text {
+            margin-top: 20px;
+            color: #94a3b8;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: textFade 1.2s ease-in-out infinite alternate;
+        }
+
+        @keyframes spinRing {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes zPulseGlow {
+            0% {
+                transform: scale(0.92);
+                filter: drop-shadow(0 0 10px rgba(0, 203, 255, 0.4));
+            }
+
+            100% {
+                transform: scale(1.08);
+                filter: drop-shadow(0 0 25px rgba(157, 78, 221, 0.8));
+            }
+        }
+
+        @keyframes textFade {
+            0% {
+                opacity: 0.4;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* ==========================================================================
+           🎨 CUSTOM GLASSMORPHIC MODAL STYLES
+           ========================================================================== */
+        #customModalOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(11, 15, 25, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 99990;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
+        }
+
+        #customModalOverlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .custom-modal-card {
+            background: #0f172a;
+            border: 1px solid rgba(0, 203, 255, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 203, 255, 0.15);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 440px;
+            padding: 24px;
+            transform: scale(0.95);
+            transition: transform 0.25s ease;
+            color: #fff;
+        }
+
+        #customModalOverlay.active .custom-modal-card {
+            transform: scale(1);
+        }
+
+        .modal-header-zone {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .modal-icon-badge {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: rgba(0, 203, 255, 0.1);
+            color: #00cbff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .modal-title-text {
+            font-size: 18px;
+            font-weight: 700;
+            color: #f8fafc;
+        }
+
+        .modal-body-text {
+            color: #94a3b8;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .modal-actions-flex {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .modal-btn {
+            padding: 9px 18px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .modal-btn-confirm {
+            background: linear-gradient(135deg, #00cbff, #9d4edd);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 203, 255, 0.3);
+        }
+
+        .modal-btn-cancel {
+            background: rgba(255, 255, 255, 0.08);
+            color: #cbd5e1;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ==========================================================================
+         ⚡ UNIVERSAL Z-VISUAL EFFECT LOADING OVERLAY
+         ========================================================================== -->
+    <div id="zLoaderOverlay">
+        <div class="z-loader-container">
+            <div class="z-spinner-ring"></div>
+            <div class="z-loader-symbol">Z</div>
+        </div>
+        <div class="z-loader-text" id="zLoaderText">Processing System Blueprint...</div>
+    </div>
+
+    <!-- ==========================================================================
+         🎨 CUSTOM GLASSMORPHIC POPUP MODAL OVERLAY
+         ========================================================================== -->
+    <div id="customModalOverlay">
+        <div class="custom-modal-card">
+            <div class="modal-header-zone">
+                <div class="modal-icon-badge" id="modalIcon">⚡</div>
+                <div class="modal-title-text" id="modalTitle">Notification</div>
+            </div>
+            <div class="modal-body-text" id="modalMessage">Message payload content details go here.</div>
+            <div class="modal-actions-flex">
+                <button class="modal-btn modal-btn-cancel" id="modalCancelBtn" style="display: none;">Cancel</button>
+                <button class="modal-btn modal-btn-confirm" id="modalConfirmBtn">Acknowledge</button>
+            </div>
+        </div>
+    </div>
+
+    <header class="main-header">
+        <div class="header-left">
+            <div class="brand-logo">Zabdy's Tech</div>
+            <nav class="nav-links-left">
+                <a href="#" id="homeLinkBtn" class="nav-item active">Home</a>
+                <a href="#" id="exploreCoursesBtn" class="nav-item tech-explore-btn">Explore Courses</a>
+            </nav>
+        </div>
+
+        <div class="header-right">
+            <nav class="nav-links-right">
+                <a href="#" id="aboutLinkBtn" class="nav-item">About Us</a>
+                <a href="#" id="contactLinkBtn" class="nav-item">Contact Us</a>
+                <a href="javascript:void(0);" id="studentPortalTriggerBtn" class="nav-item portal-link">Student
+                    Portal</a>
+                <a href="#" id="instructorPortalTriggerBtn" class="nav-item portal-link">Instructor Portal</a>
+            </nav>
+
+            <div class="nav-auth-container" style="display: flex; align-items: center; gap: 15px;">
+                <div id="guest-nav-links" style="display: flex; gap: 10px; align-items: center;">
+                    <a href="login.html" id="loginTriggerBtn" class="btn-login">Log In</a>
+                    <a href="signup.html" id="signUpTriggerBtn" class="btn-signup">Sign Up</a>
+                </div>
+
+                <div id="user-profile-menu" style="position: relative; display: none;">
+                    <button id="avatarBtn"
+                        style="background-color: #00bcd4; color: #fff; border: none; width: 40px; height: 40px; border-radius: 50%; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 0 0 10px rgba(0, 188, 212, 0.4);">
+                        <span id="userInitials">U</span>
+                    </button>
+
+                    <div id="avatarDropdown"
+                        style="display: none; position: absolute; right: 0; top: 50px; background-color: #0f172a; border: 1px solid #1e293b; border-radius: 8px; width: 220px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); z-index: 100; padding: 12px; flex-direction: column; gap: 10px;">
+                        <div
+                            style="font-size: 11px; color: #64748b; text-transform: uppercase; font-weight: bold; letter-spacing: 0.05em;">
+                            Logged In As</div>
+                        <div id="dropdownUserName"
+                            style="font-size: 15px; color: #fff; font-weight: 600; padding-bottom: 8px; border-bottom: 1px solid #1e293b; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                            Student Name
+                        </div>
+                        <button id="logoutBtn"
+                            style="background-color: #ef4444; color: #fff; border: none; padding: 8px; width: 100%; border-radius: 4px; font-weight: bold; cursor: pointer; transition: background 0.2s;">
+                            Log Out
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="content-wrapper">
+
+        <!-- 🏠 SECTION 1: Base Homepage Content Area -->
+        <div id="defaultHomeContent" class="home-view-zone">
+            <section class="hero-section-split">
+                <div class="hero-content-left">
+                    <span class="tech-badge-glow">Accelerate Your Architecture</span>
+                    <h1 class="hero-main-title">
+                        Engineered for the Next Gen of <br>
+                        <span class="gradient-text-vivid">Tech Architects.</span>
+                    </h1>
+                    <p class="hero-description-premium">
+                        At <span class="brand-highlight">Zabdy's Tech</span>, we don't just teach syntax—we build
+                        systemic capabilities. Bridge the gap between academic theory and enterprise-grade deployment
+                        with our strict multi-tenant engineering tracks.
+                    </p>
+
+                    <div class="brand-stats-row">
+                        <div class="stat-box">
+                            <span class="stat-number">8+</span>
+                            <span class="stat-label">Production Tracks</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-number">100%</span>
+                            <span class="stat-label">Hands-on Lab Sets</span>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="hero-visual-right">
+                    <div class="image-frame-glowing">
+                        <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=600&auto=format&fit=crop"
+                            alt="Coding Motivation Framework">
+                        <div class="floating-glass-pill status-pill">
+                            <span class="pulse-dot"></span> Active Session: C# API Routing
+                        </div>
+                        <div class="floating-glass-pill metric-pill">
+                            ⚡ System Isolation: Stable
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 💻 Courses Grid View -->
+            <section class="courses-catalog-section" id="coursesCatalogSection">
+                <div class="section-header">
+                    <h2 class="section-title">Explore Our <span class="gradient-text">Engineering Tracks</span></h2>
+                    <p class="section-desc">Advance your structural capabilities with deep-dive courses curated for
+                        developers.</p>
+                </div>
+
+                <div class="courses-grid">
+                    <div class="tech-course-card">
+                        <div class="course-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=400&auto=format&fit=crop"
+                                alt="Java">
+                            <span class="course-badge">Backend</span>
+                        </div>
+                        <div class="course-card-content">
+                            <h3>Java Programming Masterclass</h3>
+                            <p class="course-text">Master Object-Oriented Programming, multithreading, enterprise
+                                frameworks, and high-performance backend JVM execution architectures.</p>
+                            <div class="course-footer">
+                                <span class="course-price">Rs. 11,500</span>
+                                <button class="btn-enroll-track" data-course="fswd">View Syllabus</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tech-course-card">
+                        <div class="course-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=400&auto=format&fit=crop"
+                                alt="Python">
+                            <span class="course-badge">Core Tech</span>
+                        </div>
+                        <div class="course-card-content">
+                            <h3>Python Scripting & Automation</h3>
+                            <p class="course-text">Build programmatic automation matrices, work with file processing
+                                APIs, advanced data structures, and production utility scripting.</p>
+                            <div class="course-footer">
+                                <span class="course-price">Rs. 9,500</span>
+                                <button class="btn-enroll-track" data-course="cyber">View Syllabus</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tech-course-card">
+                        <div class="course-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=400&auto=format&fit=crop"
+                                alt="ML">
+                            <span class="course-badge">AI Track</span>
+                        </div>
+                        <div class="course-card-content">
+                            <h3>Applied Machine Learning Systems</h3>
+                            <p class="course-text">Train, implement, and deploy statistical predictive algorithms,
+                                neural network layers, classification models, and regression computations.</p>
+                            <div class="course-footer">
+                                <span class="course-price">Rs. 18,000</span>
+                                <button class="btn-enroll-track" data-course="ai">View Syllabus</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tech-course-card">
+                        <div class="course-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=400&auto=format&fit=crop"
+                                alt="Data Science">
+                            <span class="course-badge">Analytics</span>
+                        </div>
+                        <div class="course-card-content">
+                            <h3>Data Science & Pipeline Engineering</h3>
+                            <p class="course-text">Ingest structural datasets, execute advanced data wrangling loops,
+                                design interactive dashboards, and process automated extraction operations.</p>
+                            <div class="course-footer">
+                                <span class="course-price">Rs. 16,500</span>
+                                <button class="btn-enroll-track" data-course="dsa">View Syllabus</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tech-course-card">
+                        <div class="course-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1607799279861-4dd421887fb3?q=80&w=400&auto=format&fit=crop"
+                                alt="C#">
+                            <span class="course-badge">Desktop/.NET</span>
+                        </div>
+                        <div class="course-card-content">
+                            <h3>C# Core & Advanced Patterns</h3>
+                            <p class="course-text">Deep-dive into generic definitions, memory safety configurations,
+                                asynchronous processing async/await execution, and LINQ structural query models.</p>
+                            <div class="course-footer">
+                                <span class="course-price">Rs. 12,000</span>
+                                <button class="btn-enroll-track" data-course="desktop">View Syllabus</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tech-course-card">
+                        <div class="course-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=400&auto=format&fit=crop"
+                                alt="Backend">
+                            <span class="course-badge">Architecture</span>
+                        </div>
+                        <div class="course-card-content">
+                            <h3>Backend Architecture & Routing</h3>
+                            <p class="course-text">Build highly resilient relational database schema infrastructures,
+                                data isolation controls, complex table joins, and secure Web APIs.</p>
+                            <div class="course-footer">
+                                <span class="course-price">Rs. 14,500</span>
+                                <button class="btn-enroll-track" data-course="devops">View Syllabus</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tech-course-card">
+                        <div class="course-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=400&auto=format&fit=crop"
+                                alt="Frontend">
+                            <span class="course-badge">UI/UX</span>
+                        </div>
+                        <div class="course-card-content">
+                            <h3>Frontend UI/UX Engineering</h3>
+                            <p class="course-text">Craft responsive interface components with native high-performance
+                                DOM integrations, fluid dropdown frameworks, and dynamic layouts.</p>
+                            <div class="course-footer">
+                                <span class="course-price">Rs. 11,000</span>
+                                <button class="btn-enroll-track" data-course="mobile">View Syllabus</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tech-course-card">
+                        <div class="course-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=400&auto=format&fit=crop"
+                                alt="Full Stack">
+                            <span class="course-badge">Full-Stack</span>
+                        </div>
+                        <div class="course-card-content">
+                            <h3>Full-Stack Application Deployment</h3>
+                            <p class="course-text">Assemble dynamic end-to-end architectures combining Node.js or .NET
+                                server routes directly with persistent operational data layers.</p>
+                            <div class="course-footer">
+                                <span class="course-price">Rs. 22,000</span>
+                                <button class="btn-enroll-track" data-course="fswd">View Syllabus</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- 📚 SECTION 2: Dynamic Syllabus Viewer Container -->
+        <section id="syllabusViewerContainer" class="syllabus-view-section hidden">
+            <button id="btnBackToCatalog" class="btn-back-link">← Back to Course Track Catalog</button>
+
+            <div class="syllabus-layout-split">
+                <div class="syllabus-engagement-left">
+                    <span class="live-track-badge">Active Track Analysis</span>
+                    <h2 id="dynamicCourseTitle" class="syllabus-main-title">Course Title Placeholder</h2>
+
+                    <div class="professional-benefits-box">
+                        <h4>🎯 Professional Career Impact & Benefits:</h4>
+                        <p id="dynamicCourseBenefits">Benefits text loading dynamically...</p>
+                    </div>
+
+                    <div class="enrollment-action-zone">
+                        <div class="pricing-flex">
+                            <span class="pricing-label">Investment Amount:</span>
+                            <span id="dynamicCoursePrice" class="pricing-tag-neon">Rs. 0</span>
+                        </div>
+                        <a href="#" id="dynamicEnrollRedirectBtn" class="btn-enroll-main-glow"
+                            style="text-decoration: none; display: inline-block; text-align: center;">Enroll Course
+                            Now</a>
+                    </div>
+                </div>
+
+                <div class="syllabus-outline-right">
+                    <h3>🛠️ Core Engineering Modules & Outlines</h3>
+                    <div id="dynamicModulesGrid" class="modules-stack-list"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 👨‍🏫 SECTION 3: Instructor Portal Login Form Container -->
+        <div id="instructorLoginContainer" class="signup-view-zone hidden">
+            <div class="signup-form-card" style="border-color: rgba(157, 78, 221, 0.3);">
+                <div id="instructorNoticeBanner" class="portal-notice-banner"
+                    style="background: rgba(157, 78, 221, 0.08); border-color: rgba(157, 78, 221, 0.4); color: #d4a5ff;">
+                    Please log in using your authorized Instructor Node credentials to access faculty matrices.
+                </div>
+
+                <h2>Instructor Faculty Portal</h2>
+                <p>Secure pipeline authentication for corporate program mentors.</p>
+
+                <form id="instructorLoginForm" novalidate>
+                    <div class="input-group-wrapper">
+                        Email Address <input type="email" id="instructorEmail" placeholder="mentor@zabdystech.com">
+                    </div>
+                    <div class="input-group-wrapper">
+                        Password <input type="password" id="instructorPassword" placeholder="••••••••">
+                    </div>
+
+                    <button type="submit" class="btn-submit-form"
+                        style="background: linear-gradient(135deg, #9d4edd, #ff007f); box-shadow: 0 4px 15px rgba(157, 78, 221, 0.2);">Verify
+                        Mentor Node</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- 🏢 SECTION 4: About Us Container -->
+        <div id="aboutUsContainer" class="home-view-zone hidden">
+            <div style="padding: 60px 20px; color: white; text-align: center;">
+                <span class="tech-badge-glow" style="margin-bottom: 15px; display: inline-block;">Who We Are</span>
+                <h2 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 15px;">About Zabdy's Tech</h2>
+                <p style="color: #94a3b8; font-size: 1.1rem; max-width: 700px; margin: 0 auto; line-height: 1.6;">
+                    Zabdy's Tech is engineered to build advanced architecture blueprints and programmatic computational
+                    capabilities. We bridge academic theory and production-grade deployments through high-fidelity,
+                    hands-on software design tracks.
+                </p>
+            </div>
+        </div>
+
+        <!-- 📞 SECTION 5: Contact Us Container -->
+        <div id="contactUsContainer" class="home-view-zone hidden">
+            <div style="padding: 60px 20px; color: white; text-align: center;">
+                <span class="tech-badge-glow" style="margin-bottom: 15px; display: inline-block;">Get In Touch</span>
+                <h2 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 15px;">Contact Infrastructure</h2>
+                <p style="color: #94a3b8; font-size: 1.1rem; max-width: 600px; margin: 0 auto 25px auto;">
+                    Have structural technical questions or need active session platform guidance? Reach out to our
+                    engineers.
+                </p>
+                <div
+                    style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); display: inline-block; padding: 15px 30px; border-radius: 8px;">
+                    <span style="color: #94a3b8; display: block; font-size: 0.85rem; text-transform: uppercase;">Secure
+                        Link Node</span>
+                    <a href="mailto:support@zabdystech.com"
+                        style="color: #00cbff; font-weight: bold; font-size: 1.3rem; text-decoration: none;">support@zabdystech.com</a>
+                </div>
+            </div>
+        </div>
+        <!-- 🚨 ENROLLMENT REQUIRED LOCK MODAL -->
+        <div id="enrollmentRequiredModal" class="modal-overlay hidden"
+            style="backdrop-filter: blur(8px); z-index: 9999;">
+            <div class="custom-modal-card" style="text-align: center; max-width: 480px; padding: 2rem;">
+                <div style="font-size: 3.5rem; margin-bottom: 10px;">🎓</div>
+                <h2 style="color: #fff; font-size: 1.5rem; margin-bottom: 10px;">Not Enrolled in Any Course</h2>
+                <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">
+                    Aap ka account active hai lekin aap abhi tak kisi bhi active technical course ya training module
+                    mein enrolled nahi hain. Student Portal accessing ke liye pehle course enroll karein.
+                </p>
+                <button id="goToEnrollmentBtn" class="btn-action-primary"
+                    style="width: 100%; padding: 12px; font-weight: bold;">
+                    🚀 Browse & Enroll in Courses
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="homepage.js"></script>
+</body>
+
+</html>
