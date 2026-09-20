@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
             submitBtn.classList.add("is-loading");
             submitBtn.innerHTML = `<span class="z-spinner">Z</span> Processing...`;
 
-            const backendLoginUrl = "/api/Account/signin";
+            const backendLoginUrl = `${API_BASE_URL}/api/Account/signin`;
 
             try {
                 const response = await fetch(backendLoginUrl, {

@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 country: document.getElementById("country").value.trim()
             };
 
-            const backendUrl = "${API_BASE_URL}/api/Account/signup";
+            const backendUrl = `${API_BASE_URL}/api/Account/signup`;
 
             try {
                 const response = await fetch(backendUrl, {

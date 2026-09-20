@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         try {
-            const response = await fetch("${API_BASE_URL}/api/enrollment/student-profile", {
+            const response = await fetch(`${API_BASE_URL}/api/enrollment/student-profile`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -257,7 +257,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 try {
                     const token = localStorage.getItem("jwt_token");
 
-                    const response = await fetch("${API_BASE_URL}/api/enrollment/proceed-to-payment", {
+                    const response = await fetch(`${API_BASE_URL}/api/enrollment/proceed-to-payment`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
