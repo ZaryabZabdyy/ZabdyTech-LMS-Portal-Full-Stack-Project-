@@ -217,7 +217,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const savedInstructorName = localStorage.getItem("instructor_name");
 
             // Matched Route: GET api/Project/profile/instructor/{instructorId}
-            const response = await fetch(`${API_BASE_URL}/Project/profile/instructor/${CURRENT_INSTRUCTOR_ID}`, {
+            const response = await fetch(`${window.API_BASE_URL}/Project/profile/instructor/${CURRENT_INSTRUCTOR_ID}`, {
                 method: "GET",
                 headers: getAuthHeaders()
             });
@@ -248,7 +248,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async function fetchDashboardOverviewMetrics() {
         try {
             // Matched Route: GET api/Project/dashboard-overview/{instructorId}
-            const response = await fetch(`${API_BASE_URL}/Project/dashboard-overview/${CURRENT_INSTRUCTOR_ID}`, {
+            const response = await fetch(`${window.API_BASE_URL}/Project/dashboard-overview/${CURRENT_INSTRUCTOR_ID}`, {
                 method: "GET",
                 headers: getAuthHeaders()
             });
@@ -279,7 +279,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             // Matched Route: GET api/Project/allocated-courses/{instructorId}
-            const response = await fetch(`${BASE_API_URL}/Project/allocated-courses/${CURRENT_INSTRUCTOR_ID}`, {
+            const response = await fetch(`${window.API_BASE_URL}/Project/allocated-courses/${CURRENT_INSTRUCTOR_ID}`, {
                 method: "GET",
                 headers: getAuthHeaders()
             });
@@ -312,7 +312,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (typeof loadAllocatedInstructorCourses === "function") await loadAllocatedInstructorCourses();
 
             // API Call: No parameters, pure JWT token authentication
-            const response = await fetch(`${BASE_API_URL}/Project/submitted-students`, {
+            const response = await fetch(`${window.API_BASE_URL}/Project/submitted-students`, {
                 method: "GET",
                 headers: getAuthHeaders()
             });
@@ -481,7 +481,7 @@ document.addEventListener("DOMContentLoaded", () => {
             showZLoader("Deploying metadata blueprint to database...");
 
             try {
-                const response = await fetch(`${BASE_API_URL}/Project/assign-project`, {
+                const response = await fetch(`${window.API_BASE_URL}/Project/assign-project`, {
                     method: "POST",
                     headers: getAuthHeaders(),
                     body: JSON.stringify(deploymentPayloadDto)
@@ -555,7 +555,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             try {
                 // Explicit lowercase/case-matched URL
-                const response = await fetch(`${BASE_API_URL}/Project/publish-grade`, {
+                const response = await fetch(`${window.API_BASE_URL}/Project/publish-grade`, {
                     method: "POST",
                     headers: getAuthHeaders(), // JWT Token strictly passed here
                     body: JSON.stringify(gradingPayloadDto)
@@ -618,7 +618,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             try {
                 // Matched Existing Route: GET api/Project/student-submissions/{studentId}
-                const response = await fetch(`${BASE_API_URL}/Project/student-submissions/${selectedStudentId}`, {
+                const response = await fetch(`${window.API_BASE_URL}/Project/student-submissions/${selectedStudentId}`, {
                     method: "GET",
                     headers: getAuthHeaders()
                 });

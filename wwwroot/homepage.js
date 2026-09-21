@@ -340,7 +340,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 showZLoader("Verifying Instructor Credentials...");
 
                 try {
-                    const response = await fetch("/api/Account/instructor/signin", {
+                    const response = await fetch("${window.API_BASE_URL}/api/Account/instructor/signin", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ email: emailVal, password: passwordVal })
