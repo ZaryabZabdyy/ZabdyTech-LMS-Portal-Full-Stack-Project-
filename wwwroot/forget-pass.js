@@ -1,4 +1,6 @@
+const API_BASE_URL = "https://zabdytech-lms-portal-full-stack-project-production.up.railway.app";
 document.addEventListener("DOMContentLoaded", () => {
+
 
     let verifiedEmailContext = "";
 
@@ -134,7 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
             verificationOverlayBlock.classList.remove("hidden");
 
             try {
-                const response = await fetch(`${window.API_BASE_URL}/api/auth/forgot-password`, {
+                const response = await fetch(`$${API_BASE_URL}/api/auth/forgot-password`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ email: verifiedEmailContext })
@@ -179,7 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
             verificationOverlayBlock.classList.remove("hidden");
 
             try {
-                const response = await fetch(`${window.API_BASE_URL}/api/auth/verify-code`, {
+                const response = await fetch(`${API_BASE_URL}/api/auth/verify-code`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ email: verifiedEmailContext, resetCode: codeVal })
@@ -242,7 +244,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             try {
-                const response = await fetch(`${window.API_BASE_URL}/api/auth/reset-password`, {
+                const response = await fetch(`${API_BASE_URL}/api/auth/reset-password`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({

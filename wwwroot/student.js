@@ -1,3 +1,4 @@
+const API_BASE_URL = "https://zabdytech-lms-portal-full-stack-project-production.up.railway.app";
 document.addEventListener("DOMContentLoaded", () => {
 
     // ==========================================
@@ -276,7 +277,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         try {
-            const response = await fetch(`${window.API_BASE_URL}/Project/profile/${CURRENT_STUDENT_ID}`, {
+            const response = await fetch(`${API_BASE_URL}/Project/profile/${CURRENT_STUDENT_ID}`, {
                 method: "GET",
                 headers: getAuthHeaders()
             });
@@ -327,7 +328,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            const projRes = await fetch(`${window.API_BASE_URL}/Project/project-details`, {
+            const projRes = await fetch(`${API_BASE_URL}/Project/project-details`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -370,7 +371,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async function loadPendingProjectsDropdown() {
         if (!pendingProjectsSelect) return;
         try {
-            const response = await fetch(`${window.API_BASE_URL}/Project/pending-projects/${CURRENT_STUDENT_ID}`, {
+            const response = await fetch(`${API_BASE_URL}/Project/pending-projects/${CURRENT_STUDENT_ID}`, {
                 method: "GET",
                 headers: getAuthHeaders()
             });
@@ -401,7 +402,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async function fetchStudentSubmissionHistory() {
         showZLoader("Loading submission history...");
         try {
-            const response = await fetch(`${window.API_BASE_URL}/Project/student-submissions/${CURRENT_STUDENT_ID}`, {
+            const response = await fetch(`${API_BASE_URL}/Project/student-submissions/${CURRENT_STUDENT_ID}`, {
                 method: "GET",
                 headers: getAuthHeaders()
             });
@@ -453,7 +454,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async function loadGradedProjectsDropdown() {
         if (!gradedProjectsSelect) return;
         try {
-            const response = await fetch(`${window.API_BASE_URL}/Project/graded-projects/${CURRENT_STUDENT_ID}`, {
+            const response = await fetch(`${API_BASE_URL}/Project/graded-projects/${CURRENT_STUDENT_ID}`, {
                 method: "GET",
                 headers: getAuthHeaders()
             });
@@ -485,7 +486,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             showZLoader("Loading project result...");
             try {
-                const response = await fetch(`${window.API_BASE_URL}/Project/student-result/${selectedProjectId}/${CURRENT_STUDENT_ID}`, {
+                const response = await fetch(`${API_BASE_URL}/Project/student-result/${selectedProjectId}/${CURRENT_STUDENT_ID}`, {
                     method: "GET",
                     headers: getAuthHeaders()
                 });
@@ -590,7 +591,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 };
 
                 try {
-                    const res = await fetch(`${window.API_BASE_URL}/Project/submit-project`, {
+                    const res = await fetch(`${API_BASE_URL}/Project/submit-project`, {
                         method: "POST",
                         headers: getAuthHeaders(),
                         body: JSON.stringify(payload)
@@ -670,7 +671,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==========================================
     async function loadCourseAndInstructorInfo() {
         try {
-            const response = await fetch(`${window.API_BASE_URL}/Project/course-instructor/${CURRENT_STUDENT_ID}`, {
+            const response = await fetch(`${API_BASE_URL}/Project/course-instructor/${CURRENT_STUDENT_ID}`, {
                 method: "GET",
                 headers: getAuthHeaders()
             });

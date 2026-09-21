@@ -1,7 +1,9 @@
 // ==========================================================================
 // 📚 DATA HUB: Dynamic Course Outlines, Benefits, Pricing, and Explicit URL Keys
 // 
+const API_BASE_URL = "https://zabdytech-lms-portal-full-stack-project-production.up.railway.app";
 const courseSyllabusDatabase = {
+
     "Java Programming Masterclass": {
         key: "fswd",
         benefits: "Java is the backbone of global enterprise scaling. By mastering JVM architectures and concurrency controls inside this track, you qualify directly for high-throughput transactional engineering domains in multi-national software houses.",
@@ -75,6 +77,7 @@ const courseSyllabusDatabase = {
 
 // Global Tracker for Currently Viewed Course Key
 let activeTargetCourseKey = "fswd";
+
 
 // ==========================================================================
 // ⚡ UTILITY HELPERS: Z-Loader & Custom Glassmorphic Modal Engines
@@ -340,7 +343,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 showZLoader("Verifying Instructor Credentials...");
 
                 try {
-                    const response = await fetch("${window.API_BASE_URL}/api/Account/instructor/signin", {
+                    const response = await fetch("${API_BASE_URL}/api/Account/instructor/signin", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ email: emailVal, password: passwordVal })

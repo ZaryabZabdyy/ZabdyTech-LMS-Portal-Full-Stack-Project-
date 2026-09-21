@@ -1,3 +1,4 @@
+const API_BASE_URL = "https://zabdytech-lms-portal-full-stack-project-production.up.railway.app";
 document.addEventListener("DOMContentLoaded", () => {
     const registrationForm = document.getElementById("registrationForm");
     const signupModal = document.getElementById("signupModal");
@@ -74,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 country: document.getElementById("country").value.trim()
             };
 
-            const backendUrl = `${window.API_BASE_URL}/api/Account/signup`;
+            const backendUrl = `${API_BASE_URL}/api/Account/signup`;
 
             try {
                 const response = await fetch(backendUrl, {

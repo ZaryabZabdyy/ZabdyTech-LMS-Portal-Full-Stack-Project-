@@ -1,3 +1,4 @@
+const API_BASE_URL = "https://zabdytech-lms-portal-full-stack-project-production.up.railway.app";
 document.addEventListener("DOMContentLoaded", () => {
 
     // 💻 8 COURSES CATALOG DICTIONARY DATA STORAGE MATCHED WITH HOMEPAGE DATA Blueprints
@@ -57,6 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
             btnElement.innerHTML = originalText;
         }
     }
+
 
     function extractUrlCoursePayload() {
         const urlParams = new URLSearchParams(window.location.search);
@@ -257,7 +259,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 try {
                     const token = localStorage.getItem("jwt_token");
 
-                    const response = await fetch(`${window.API_BASE_URL}/api/enrollment/proceed-to-payment`, {
+                    const response = await fetch(`${API_BASE_URL}/api/enrollment/proceed-to-payment`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -460,7 +462,7 @@ document.addEventListener("DOMContentLoaded", () => {
             try {
                 const token = localStorage.getItem("jwt_token");
 
-                const response = await fetch(`${window.API_BASE_URL}/api/enrollment/submit-payment/${currentEnrollmentId}`, {
+                const response = await fetch(`${API_BASE_URL}/api/enrollment/submit-payment/${currentEnrollmentId}`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
