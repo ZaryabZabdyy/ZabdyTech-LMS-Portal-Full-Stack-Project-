@@ -13,18 +13,16 @@ internal class Program
         // 1. Database Connection Setup (PostgreSQL / Supabase)
         var connectionstring = builder.Configuration.GetConnectionString("DefaultConnection");
         builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionstring));
+        
+        var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+        builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
         // 2. Optimized Single CORS Policy Setup
         builder.Services.AddCors(options =>
         {
-            options.AddPolicy("AllowFrontend", policy =>
+            options.AddPolicy("SpecificOriginPolicy", policy =>
             {
-                policy.WithOrigins(
-                        "http://127.0.0.1:5500",
-                        "http://localhost:5500",
-                        "http://127.0.0.1:5127",
-                        "http://localhost:5127"
-                      )
+                policy.WithOrigins("https://zabdytech-lms-portal-full-stack-project-production.up.railway.app")
                       .AllowAnyHeader()
                       .AllowAnyMethod()
                       .AllowCredentials(); // Authorization headers (JWT) support
@@ -65,7 +63,7 @@ internal class Program
         }
 
         app.UseHttpsRedirection();
-        app.UseHttpsRedirection();
+
 
         // 🎯 Yeh do lines add karni hain taake homepage.html aur static files load ho sakein
         var defaultFilesOptions = new DefaultFilesOptions();
@@ -77,7 +75,7 @@ internal class Program
         app.UseRouting();
 
         // 🎯 SINGLE CORS MIDDLEWARE (Must be placed before Authentication/Authorization)
-        app.UseCors("AllowFrontend");
+        app.UseCors("SpecificOriginPolicy");
 
         app.UseAuthentication(); // Token verification
         app.UseAuthorization();  // Role / Right validation
