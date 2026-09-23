@@ -1,4 +1,4 @@
-# ZabdyTech LMS (Learning Management System) Portal Production ReadySystem
+# ZabdyTech LMS (Learning Management System) Portal Production ReadySystem Documentation
 
 Welcome to the comprehensive technical documentation for the Learning Management System (LMS). This document covers the overall architecture, database schema, RESTful API endpoints, frontend integration modules, and security protocols implemented across the platform.
 
