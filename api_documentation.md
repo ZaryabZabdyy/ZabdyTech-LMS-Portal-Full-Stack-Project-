@@ -122,8 +122,50 @@ The relational database is managed via Entity Framework Core with the following 
 *  Endpoint: `POST /api/Enrollment/submit-payment/{enrollmentId}`
 *  What it takes: `PaymentDto` (Payment method, Transaction ID, Amount, etc.)
 *  What it does: Checks that the transaction ID is real and hasn't been used before, saves it to the financial records, and instantly changes the student's status to "Active".   
+### 🚀 Project & Dashboard APIs (`ProjectController`)
 
----
+This part handles projects, student submissions, and grading.
+
+*   Get Dashboard Summary
+- **Endpoint:** `GET /api/Project/dashboard-summary/{studentId}`
+- **What it does:** Shows the student their active course, current project, deadline, and whether they have submitted it yet.
+
+*   Assign Project (Instructor)
+- **Endpoint:** `POST /api/Project/assign-project`
+- **What it takes:** `AssignProjectDto` (Instructor ID, Title, Deadline, Rules, Document URL, Wireframe URL)
+- **What it does:** Allows an instructor to assign a new project to their course.
+
+*  Submit Project (Student)
+- **Endpoint:** `POST /api/Project/submit-project`
+- **What it does:** Lets a student upload their project details and GitHub link.
+
+*  Publish Grade (Instructor)
+- **Endpoint:** `POST /api/Project/publish-grade`
+- **What it does:** Lets an instructor give a score and feedback, changing the submission status to "Graded".
+
+*  Student Profile & Results
+- **Endpoints:**
+  - `GET /api/Project/profile/{studentId}` – Views student profile and course status.
+  - `PUT /api/Project/update-profile/{studentId}` – Updates personal info or profile picture.
+  - `GET /api/Project/student-result/{studentId}` – Shows final marks and instructor feedback.
+ ### 🎒 Enrollment & Payment APIs (`EnrollmentController`)
+
+This controller handles student course enrollments and fee submissions.
+
+*   Get Student Profile For Enrollment
+- **Endpoint:** `GET /api/Enrollment/student-profile`
+- **Authorization:** Bearer Token (JWT)
+- **Functionality:** Fetches the logged-in student's basic details (Name, Email, Phone) so the enrollment form can autofill automatically.
+
+*   Proceed To Payment
+- **Endpoint:** `POST /api/Enrollment/proceed-to-payment`
+- **Payload:** `SubmitStepDto` (Organization, Shift, Title)
+- **Functionality:** Checks if the student already has an active course or pending enrollment. If not, it creates a new enrollment record with a "Pending" status for the selected course.
+
+*  Submit Payment
+- **Endpoint:** `POST /api/Enrollment/submit-payment/{enrollmentId}`
+- **Payload:** `PaymentDto` (PaymentMethod, TransactionId, Amount, and optional Card/Wallet fields)
+- **Functionality:** Verifies the manual transaction ID or card details, prevents duplicate transactions while saving the record to the financial ledger, and instantly updates the student's enrollment status to **"Active"** using an atomic database transaction.
 
 ## 5. Setup & Deployment Guidelines
 
