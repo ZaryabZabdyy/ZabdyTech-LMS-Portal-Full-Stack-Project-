@@ -1,95 +1,180 @@
-# Zabdy's Tech LMS Portal - Backend API Documentation
+# Learning Management System (LMS) - Complete System & API Documentation
 
-Yeh documentation Zabdy's Tech LMS portal ke backend APIs ki mukammal tafseel fraaham karti hai. Is project mein ASP.NET Core 8 Web API, Entity Framework Core, aur SQL Server/PostgreSQL ka istemal kiya gaya hai[cite: 1].
-
----
-
-## 🔐 1. Account & Authentication APIs (`AccountController`)
-
-Ye controller students aur instructors ki registration, login, aur JWT token generation ko handle karta hai[cite: 1].
-
-### Register Student
-- **Endpoint:** `POST /api/Account/signup`
-- **Payload:** `SignupDto` (FirstName, LastName, Email, Password, PhoneNumber, DateOfBirth, Country)[cite: 1, 11]
-- **Functionality:** Email normalization karta hai, BCrypt ke zariye password ko secure hash mein convert karta hai, aur naye student ka record database mein save karta hai[cite: 1].
-
-### Student Login
-- **Endpoint:** `POST /api/Account/signin`
-- **Payload:** `LoginDto` (Email, Password)[cite: 1, 8]
-- **Functionality:** Email aur BCrypt password hash ko verify karta hai, aur successful login par ek secure JWT token return karta hai[cite: 1].
-
-### Instructor Login
-- **Endpoint:** `POST /api/Account/instructor/signin`
-- **Payload:** `LoginDto` (Email, Password)[cite: 1, 8]
-- **Functionality:** Instructor ke credentials verify karta hai aur instructor role ke sath JWT token generate kar ke deta hai[cite: 1].
+Welcome to the comprehensive technical documentation for the Learning Management System (LMS). This document covers the overall architecture, database schema, RESTful API endpoints, frontend integration modules, and security protocols implemented across the platform.
 
 ---
 
-## 🔑 2. Password Recovery APIs (`AuthController`)
+## 1. System Architecture & Tech Stack
 
-Yeh controller password recovery aur 5-digit OTP verification ko manage karta hai[cite: 2].
-
-### Forgot Password
-- **Endpoint:** `POST /api/Auth/forgot-password`
-- **Payload:** `ForgotPasswordRequestDto` (Email)[cite: 2, 7]
-- **Functionality:** User ki email par 5-digit ka random security verification code generate kar ke SMTP (Gmail) ke zariye bhejta hai[cite: 2].
-
-### Verify Code
-- **Endpoint:** `POST /api/Auth/verify-code`
-- **Payload:** `VerifyCodeRequestDto` (Email, ResetCode)[cite: 2, 14]
-- **Functionality:** Database mein check karta hai ke aya OTP valid, un-used aur non-expired hai ya nahi[cite: 2].
-
-### Reset Password
-- **Endpoint:** `POST /api/Auth/reset-password`
-- **Payload:** `ResetPasswordRequestDto` (Email, ResetCode, NewPassword)[cite: 2, 10]
-- **Functionality:** OTP ko dobara verify karne ke baad naye password ko BCrypt se hash karta hai aur database mein update kar deta hai[cite: 2].
+The application is built using a modern decoupled architecture:
+*   **Backend:** ASP.NET Core Web API / Entity Framework Core (C#), utilizing DTOs, Repository pattern, and SQL Server DbContext.
+*   **Frontend:** Vanilla JavaScript (ES6+), HTML5, and CSS3/Tailwind styling structured across specialized portals (Enrollment, Authentication, Homepage, and Instructor Dashboard).
+*   **Security & Auth:** Token/Session management, hashed credential storage, and multi-step OTP verification pipelines.
 
 ---
 
-## 🎒 3. Enrollment & Payment APIs (`EnrollmentController`)
+## 2. Database Schema & Models
 
-Yeh controller students ki course enrollment aur fee submission ko handle karta hai[cite: 3].
+The relational database is managed via Entity Framework Core with the following core entities:
 
-### Get Student Profile For Enrollment
-- **Endpoint:** `GET /api/Enrollment/student-profile`
-- **Authorization:** Bearer Token (JWT)[cite: 3]
-- **Functionality:** Logged-in student ki basic details (Name, Email, Phone) fetch karta hai taake enrollment form autofill ho sakay[cite: 3].
+### Users & Authentication
+*   `UserId` (Primary Key, GUID/Int)
+*   `Email` (Unique, String)
+*   `PasswordHash` (String)
+*   `Role` (Enum: Student, Instructor, Admin)
+*   `ResetToken` (String, nullable)
+*   `TokenExpiry` (DateTime, nullable)
 
-### Proceed To Payment
-- **Endpoint:** `POST /api/Enrollment/proceed-to-payment`
-- **Payload:** `SubmitStepDto` (Organization, Shift, Title)[cite: 3, 12]
-- **Functionality:** Check karta hai ke student ka koi active course ya pending enrollment toh mojood nahi, phir naye course ke liye 'Pending' status ke sath enrollment create karta hai[cite: 3].
+### Courses & Syllabus
+*   `CourseId` (Primary Key)
+*   `Title` (String)
+*   `Shift` (Enum: Morning, Evening)
+*   `Description` (Text)
+*   `InstructorId` (Foreign Key referencing Users)
 
-### Submit Payment
-- **Endpoint:** `POST /api/Enrollment/submit-payment/{enrollmentId}`
-- **Payload:** `PaymentDto` (PaymentMethod, TransactionId, Amount, aur optional Card/Wallet fields)[cite: 3, 9]
-- **Functionality:** Manual TrxID ya Card details verify karta hai, duplicate transactions ko roktay huay ledger mein record save karta hai, aur student ki enrollment status ko atomic transaction ke sath instantly **'Active'** kar deta hai[cite: 3].
+### Enrollments & Payments
+*   `EnrollmentId` (Primary Key)
+*   `StudentId` (Foreign Key)
+*   `CourseId` (Foreign Key)
+*   `ShiftSelection` (String)
+*   `PaymentMethod` (Enum: EasyPaisa, JazzCash)
+*   `TransactionId` (String)
+*   `Status` (Enum: Pending, Verified, Rejected)
 
 ---
 
-## 🚀 4. Project & Dashboard APIs (`ProjectController`)
+## 3. Core Frontend Modules & Integration Logic
 
-Yeh controller students aur instructors ke project assignments, submissions, aur grading ko control karta hai[cite: 4].
+### A. Course Enrollment Gateway (`enrollment.html`, `enrollment.js`)
+*   **Multi-step Form Flow:** Step 1 fetches student identity, Step 2 handles shift selection (Morning/Evening), and Step 3 manages mobile payment gateway verification (EasyPaisa/JazzCash) with transaction ID validation.
+*   **API Payload Example:**
+    ```json
+    {
+      "studentId": "10492",
+      "courseId": "CS-101",
+      "shift": "Morning",
+      "paymentMethod": "EasyPaisa",
+      "transactionId": "EP982347561"
+    }
+    ```
 
-### Get Dashboard Summary
+### B. Password Recovery Pipeline (`forget-pass.html`, `forget-pass.js`)
+*   **3-Step Secure Flow:** 
+    1. Email input and 5-digit OTP generation request.
+    2. OTP verification code matching.
+    3. Password update and database hashing commit.
+
+### C. Homepage & Syllabus System (`homepage.html`, `homepage.js`)
+*   Features a dynamic course catalog, interactive syllabus viewer, persistent user session states, and intelligent portal redirection based on user roles (Student vs. Instructor).
+
+### D. Instructor Dashboard (`instructor_dashboard.html`, `instructor_dashboard.js`)
+*   Faculty workspace allowing instructors to deploy project blueprints, evaluate student submissions, publish grades, and query the central student repository.
+
+---
+
+## 4. RESTful API Endpoints Reference
+
+### Authentication & Password Reset
+*   `POST /api/auth/login`
+    *   *Request:* `{"email": "user@domain.com", "password": "securePassword"}`
+    *   *Response:* `200 OK` with JWT Token and User Profile.
+*   `POST /api/auth/forgot-password`
+    *   *Request:* `{"email": "user@domain.com"}`
+    *   *Response:* `200 OK` ("OTP sent successfully")
+*   `POST /api/auth/verify-otp`
+    *   *Request:* `{"email": "user@domain.com", "otp": "48192"}`
+    *   *Response:* `200 OK` ("OTP verified")
+*   `POST /api/auth/reset-password`
+    *   *Request:* `{"email": "user@domain.com", "token": "...", "newPassword": "..."}`
+    *   *Response:* `200 OK` ("Password updated successfully")
+
+### Course Enrollment & Management
+*   `GET /api/courses`
+    *   *Response:* `200 OK` (Array of available courses and syllabi)
+*   `POST /api/enrollments/submit`
+    *   *Request:* Enrollment payload with payment credentials.
+    *   *Response:* `201 Created` (Enrollment status: Pending Verification)
+*   `GET /api/Enrollment/student-profileAuth:` Requires login token
+*   What it does: Automatically fetches the logged-in student's details so they don't have to re-type their name and email on the form.
+
+### Instructor Actions
+*   `GET /api/instructor/submissions`
+    *   *Response:* `200 OK` (List of pending student submissions)
+*   `POST /api/instructor/grade`
+    *   *Request:* `{"submissionId": 42, "marks": 88, "feedback": "Great structure!"}`
+    *   *Response:* `20 0 OK` ("Grade published successfully")
+ ### Password Recovery APIs 
+ * This part handles forgotten passwords and sending 5-digit security codes via email.
+   *  *Forgot PasswordEndpoint:* `POST /api/Auth/forgot-password`
+   *  *What it takes:"* `ForgotPasswordRequestDto` (Email)
+     What it does: Generates a random 5-digit code and emails it to the user using Gmail SMTP.
+   *  *Verify CodeEndpoint:* `POST /api/Auth/verify-code`
+   *  *What it takes:* `VerifyCodeRequestDto` (Email, ResetCode)
+     What it does: Checks the database to make sure the code is correct, hasn't been used yet, and hasn't expired.
+   *  *Reset PasswordEndpoint:* `POST /api/Auth/reset-password`
+   *  *What it takes:* `ResetPasswordRequestDto` (Email, ResetCode, NewPassword)
+    hat it does: Double-checks the code, hashes the brand-new password with BCrypt, and updates it in the database
+### Payment APIs
+*  Endpoint: `POST /api/Enrollment/proceed-to-payment`
+*  What it takes: `SubmitStepDto` (Organization, Shift, Course Title)
+*  What it does: Checks if the student already has an active course.
+*  If not, it creates a new enrollment marked as "Pending".
+*  Endpoint: `POST /api/Enrollment/submit-payment/{enrollmentId}`
+*  What it takes: `PaymentDto` (Payment method, Transaction ID, Amount, etc.)
+*  What it does: Checks that the transaction ID is real and hasn't been used before, saves it to the financial records, and instantly changes the student's status to "Active".   
+### 🚀 Project & Dashboard APIs (`ProjectController`)
+
+This part handles projects, student submissions, and grading.
+
+*   Get Dashboard Summary
 - **Endpoint:** `GET /api/Project/dashboard-summary/{studentId}`
-- **Functionality:** Student ke active course, assigned project, deadline, aur current submission status ki summary fetch karta hai[cite: 4].
+- **What it does:** Shows the student their active course, current project, deadline, and whether they have submitted it yet.
 
-### Assign Project (Instructor)
+*   Assign Project (Instructor)
 - **Endpoint:** `POST /api/Project/assign-project`
-- **Payload:** `AssignProjectDto` (InstructorId, Title, Deadline, ScopeSpecificationText, DocumentDownloadUrl, WireframeUrl)[cite: 4, 5]
-- **Functionality:** Instructor ki taraf se course ke liye naya project blueprint assign kiya jata hai[cite: 4].
+- **What it takes:** `AssignProjectDto` (Instructor ID, Title, Deadline, Rules, Document URL, Wireframe URL)
+- **What it does:** Allows an instructor to assign a new project to their course.
 
-### Submit Project (Student)
+*  Submit Project (Student)
 - **Endpoint:** `POST /api/Project/submit-project`
-- **Functionality:** Student apne project ka GitHub URL aur submission details system mein upload karta hai[cite: 4].
+- **What it does:** Lets a student upload their project details and GitHub link.
 
-### Publish Grade (Instructor)
+*  Publish Grade (Instructor)
 - **Endpoint:** `POST /api/Project/publish-grade`
-- **Functionality:** Instructor student ki submission par marks aur feedback publish karta hai jisse status 'Graded' ho jata hai[cite: 4].
+- **What it does:** Lets an instructor give a score and feedback, changing the submission status to "Graded".
 
-### Student Profile & Results
-- **Endpoints:** 
-  - `GET /api/Project/profile/{studentId}` - Student profile details aur enrollment status fetch karta hai[cite: 4].
-  - `PUT /api/Project/update-profile/{studentId}` - Student ki personal info aur profile picture update karta hai[cite: 4].
-  - `GET /api/Project/student-result/{studentId}` - Student ke obtained marks aur feedback return karta hai[cite: 4].
+*  Student Profile & Results
+- **Endpoints:**
+  - `GET /api/Project/profile/{studentId}` – Views student profile and course status.
+  - `PUT /api/Project/update-profile/{studentId}` – Updates personal info or profile picture.
+  - `GET /api/Project/student-result/{studentId}` – Shows final marks and instructor feedback.
+ ### 🎒 Enrollment & Payment APIs (`EnrollmentController`)
+
+This controller handles student course enrollments and fee submissions.
+
+*   Get Student Profile For Enrollment
+- **Endpoint:** `GET /api/Enrollment/student-profile`
+- **Authorization:** Bearer Token (JWT)
+- **Functionality:** Fetches the logged-in student's basic details (Name, Email, Phone) so the enrollment form can autofill automatically.
+
+*   Proceed To Payment
+- **Endpoint:** `POST /api/Enrollment/proceed-to-payment`
+- **Payload:** `SubmitStepDto` (Organization, Shift, Title)
+- **Functionality:** Checks if the student already has an active course or pending enrollment. If not, it creates a new enrollment record with a "Pending" status for the selected course.
+
+*  Submit Payment
+- **Endpoint:** `POST /api/Enrollment/submit-payment/{enrollmentId}`
+- **Payload:** `PaymentDto` (PaymentMethod, TransactionId, Amount, and optional Card/Wallet fields)
+- **Functionality:** Verifies the manual transaction ID or card details, prevents duplicate transactions while saving the record to the financial ledger, and instantly updates the student's enrollment status to **"Active"** using an atomic database transaction.
+
+## 5. Setup & Deployment Guidelines
+
+1. **Database Connection:** Configure your connection string in `appsettings.json` targeting your SQL Server instance. Run Entity Framework migrations via terminal:
+   ```bash
+   dotnet ef database update
+   ```
+2. **Backend Execution:** Start the ASP.NET Core Web API server:
+   ```bash
+   dotnet run
+   ```
+3. **Frontend Deployment:** Serve the HTML/JS frontend files through a static web server or integrate them directly into the `wwwroot` folder of your ASP.NET Core project.
