@@ -94,6 +94,8 @@ The relational database is managed via Entity Framework Core with the following 
 *   `POST /api/enrollments/submit`
     *   *Request:* Enrollment payload with payment credentials.
     *   *Response:* `201 Created` (Enrollment status: Pending Verification)
+*   `GET /api/Enrollment/student-profileAuth:` Requires login token
+*   What it does: Automatically fetches the logged-in student's details so they don't have to re-type their name and email on the form.
 
 ### Instructor Actions
 *   `GET /api/instructor/submissions`
@@ -112,6 +114,14 @@ The relational database is managed via Entity Framework Core with the following 
    *  *Reset PasswordEndpoint:* `POST /api/Auth/reset-password`
    *  *What it takes:* `ResetPasswordRequestDto` (Email, ResetCode, NewPassword)
     hat it does: Double-checks the code, hashes the brand-new password with BCrypt, and updates it in the database
+### Payment APIs
+*  Endpoint: `POST /api/Enrollment/proceed-to-payment`
+*  What it takes: `SubmitStepDto` (Organization, Shift, Course Title)
+*  What it does: Checks if the student already has an active course.
+*  If not, it creates a new enrollment marked as "Pending".
+*  Endpoint: `POST /api/Enrollment/submit-payment/{enrollmentId}`
+*  What it takes: `PaymentDto` (Payment method, Transaction ID, Amount, etc.)
+*  What it does: Checks that the transaction ID is real and hasn't been used before, saves it to the financial records, and instantly changes the student's status to "Active".   
 
 ---
 
