@@ -104,7 +104,7 @@ The relational database is managed via Entity Framework Core with the following 
  ### Password Recovery APIs 
  * This part handles forgotten passwords and sending 5-digit security codes via email.
    *  *Forgot PasswordEndpoint:* `POST /api/Auth/forgot-password`
-   *  *What it takes:" `ForgotPasswordRequestDto` (Email)
+   *  *What it takes:"* `ForgotPasswordRequestDto` (Email)
      What it does: Generates a random 5-digit code and emails it to the user using Gmail SMTP.
    *  *Verify CodeEndpoint:* `POST /api/Auth/verify-code`
    *  *What it takes:* `VerifyCodeRequestDto` (Email, ResetCode)
