@@ -105,13 +105,13 @@ The relational database is managed via Entity Framework Core with the following 
  * This part handles forgotten passwords and sending 5-digit security codes via email.
    *  *Forgot PasswordEndpoint:* `POST /api/Auth/forgot-password`
    *  *What it takes:" `ForgotPasswordRequestDto` (Email)
-   *  *What it does:* Generates a random 5-digit code and emails it to the user using Gmail SMTP.
+     What it does: Generates a random 5-digit code and emails it to the user using Gmail SMTP.
    *  *Verify CodeEndpoint:* `POST /api/Auth/verify-code`
    *  *What it takes:* `VerifyCodeRequestDto` (Email, ResetCode)
-   *  *What it does:* Checks the database to make sure the code is correct, hasn't been used yet, and hasn't expired.
+     What it does: Checks the database to make sure the code is correct, hasn't been used yet, and hasn't expired.
    *  *Reset PasswordEndpoint:* `POST /api/Auth/reset-password`
    *  *What it takes:* `ResetPasswordRequestDto` (Email, ResetCode, NewPassword)
-   *  *What it does:* Double-checks the code, hashes the brand-new password with BCrypt, and updates it in the database
+    hat it does: Double-checks the code, hashes the brand-new password with BCrypt, and updates it in the database
 
 ---
 
